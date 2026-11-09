@@ -1,0 +1,39 @@
+name: Dessn Library push
+description: Push this commit's code into a Dessn Library (the first push sets it up; every later push updates it). Works on GitHub Enterprise Server; needs only outbound HTTPS to Dessn.
+branding:
+  icon: upload-cloud
+  color: purple
+inputs:
+  token:
+    description: A Dessn API key with "Library push" (Settings › MCP › Create API key). Pass it from a secret, e.g. secrets.DESSN_TOKEN.
+    required: true
+  library:
+    description: The Library's name on the key's team. Default the repository's name.
+    required: false
+    default: ''
+  dir:
+    description: The checkout, or a folder in it to push alone (a monorepo's app). Default the workspace.
+    required: false
+    default: '.'
+  repo:
+    description: Where the code lives, host/path (e.g. git.example.com/org/repo). Default from the server URL and repository.
+    required: false
+    default: ''
+  url:
+    description: Dessn's push endpoint. Default Dessn's.
+    required: false
+    default: ''
+outputs:
+  status:
+    description: setting_up, updating or unchanged
+  library-url:
+    description: The Library in Dessn
+  status-url:
+    description: Where the push's status reads (GET with the same key)
+  push-id:
+    description: The push's id
+# dessn.cjs is @dessn-ai/mcp-cli's `dessn push` with everything bundled in (one file, pinned to its version): the runner
+# needs only node and git, and reaches neither the npm registry nor github.com's actions. It masks the token itself.
+runs:
+  using: node20
+  main: dessn.cjs

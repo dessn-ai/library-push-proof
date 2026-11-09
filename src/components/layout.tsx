@@ -15,7 +15,7 @@ export function Layout() {
         <div className="mx-auto flex h-14 max-w-5xl items-center gap-6 px-6">
           <NavLink to="/" className="flex items-center gap-2 font-semibold">
             <span className="grid size-7 place-items-center rounded-md bg-primary text-primary-foreground">A</span>
-            Acme
+            Acme Cloud
           </NavLink>
           <nav className="flex items-center gap-1">
             {nav.map(({ to, label, icon: Icon }) => (

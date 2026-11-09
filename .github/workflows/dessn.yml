@@ -1,0 +1,22 @@
+# .github/workflows/dessn.yml: every push to the default branch updates the Dessn Library.
+# Make the key in Dessn (Settings › MCP › Create API key, with "Library push") and save it as the
+# repository secret DESSN_TOKEN.
+name: Dessn Library
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+concurrency:
+  group: dessn-library-push
+  cancel-in-progress: false
+jobs:
+  push:
+    runs-on: ubuntu-latest   # or your self-hosted GHES runner's label
+    steps:
+      - uses: actions/checkout@v4
+      # A copy of Dessn's action folder in this repository (GHES runners often can't fetch actions from github.com).
+      # It is one bundled file and needs only node 20 (the runner's own) and git: no npm registry, no setup-node.
+      - uses: ./.github/actions/dessn-push
+        with:
+          token: ${{ secrets.DESSN_TOKEN }}
+          library: library-push-proof
